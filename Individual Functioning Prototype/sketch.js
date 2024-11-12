@@ -40,17 +40,21 @@ let side;
 let song, analyzer;
 
 function preload() {
-  song = loadSound("assets/383935__multitonbits__bs_electricity-bass-2.wav");
+  song = loadSound("assets/489851__prime45__boogie-woogie.wav");
 }
-
 
 function setup() {
   createCanvas(900, 900);
 
   analyzer = new p5.Amplitude();
   analyzer.setInput(song);
-  let button = createButton("Play/Pause");
-  button.position((width - button.width)/ 2, height - button.height - 2);
+  
+  let button = createButton("▶/⏸");
+  button.style("background-color", "grey"); // modify background-color of the button
+  button.style("border-radius", "3px");
+  button.style("font-size", "13px"); // modify front-size of the button
+  button.style("padding", "0px 1px"); // modify padding of the button
+  button.position(440,690);
   button.mousePressed(play_pause);
 
   strokeWeight(1.5);
@@ -75,16 +79,29 @@ function setup() {
 }
 
 function draw() {
+  fill(255);
+  rect(240,600,480,150);
+  fill(yellow);
+  rect(435,650,120,65);
+
   let rms = analyzer.getLevel();
   fill(0);
-  rect(width/2.57+rms*5,height/1.27+rms*5, 48+rms*10, 24+rms*10); //body
+  rect(width/2.57+rms*5,height/1.27+rms*5, 48+rms*10, 24+rms*10); //cat body
+  rect(width/2.57+rms*5,height/1.23+rms*5, 3+rms*5, 13+rms*10); //cat front leg1
+  rect(width/2.5+rms*5,height/1.23+rms*5, 3+rms*5, 13+rms*10); //cat front leg2
+  rect(width/2.34+rms*5,height/1.23+rms*5, 3+rms*5, 13+rms*10); //cat hind leg1
+  rect(width/2.29+rms*5,height/1.23+rms*5, 3+rms*5, 13+rms*10); //cat hind leg2
+  rect(width/2.29+rms*5,height/1.3+rms*5, 5+rms*5, 15+rms*10); //cat tail
   fill(yellow);
   rect(width/1.42,height/1.32, 12+rms*7, 12+rms*7); //leaf1
   rect(width/1.388,height/1.355, 12+rms*7, 12+rms*7); //leaf2
+  circle(width/1.68,height/1.32, 20+rms*20, 20+rms*20); //shape in tv
   fill(blue);
   rect(width/1.355,height/1.32, 12+rms*7, 12+rms*7); //leaf3
+  circle(width/1.8,height/1.3, 20+rms*30, 20+rms*30); //shape in tv
   fill(red);
   rect(width/1.321,height/1.35, 12+rms*7, 12+rms*7); //leaf4
+  circle(width/1.98,height/1.34, 20+rms*20, 20+rms*20); //shape in tv
 
   // Horizontal conveyor belt, the third row
   fill(grey);
@@ -282,18 +299,6 @@ function draw() {
   fill(catColor);
   rect(catX2 * 0.983, catY2 * 0.993, side * 0.78, side * 0.7);
 
-  // Draw the cat2's body
-  //rect(catX2, catY2, side * 1.6, side * 0.85);
-
-  // Draw the cat2's leg
-  rect(catX2, catY2 * 1.012, side / 8, side); //frontleg1
-  rect(catX2 * 1.03, catY2 * 1.012, side / 8, side); //frontleg2
-  rect(catX2 * 1.1, catY2 * 1.012, side / 8, side); //hindleg1
-  rect(catX2 * 1.126, catY2 * 1.012, side / 8, side); //hindleg2
-
-    // Draw the cat2's tail
-    rect(catX2 * 1.1195, catY2 * 0.975, side * 0.2, side * 0.6);
-
   // Draw the cat2's ear
   fill(blue);
   triangle(
@@ -313,6 +318,7 @@ function draw() {
     catX2 * 1.05,
     catY2 * 0.983
   ); //right ear
+  
 }
 
 function play_pause() {

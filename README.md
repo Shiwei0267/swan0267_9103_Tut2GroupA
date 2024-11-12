@@ -6,3 +6,5 @@ Create p5 project
 Add Group final code
 
 Add the initial version of a button and use the audio track to animate the artwork.
+
+Modify animation details and change the music style to Boogie Woogie.
