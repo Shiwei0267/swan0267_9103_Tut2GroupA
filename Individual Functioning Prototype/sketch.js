@@ -50,11 +50,11 @@ function setup() {
   analyzer.setInput(song);
   
   let button = createButton("▶/⏸");
-  button.style("background-color", "grey"); // modify background-color of the button
+  button.style("background-color", "grey"); // modify background-color
   button.style("border-radius", "3px");
   button.style("font-size", "13px"); // modify front-size of the button
   button.style("padding", "0px 1px"); // modify padding of the button
-  button.position(440,690);
+  button.position(440,890);
   button.mousePressed(play_pause);
 
   strokeWeight(1.5);
@@ -325,6 +325,6 @@ function play_pause() {
   if (song.isPlaying()) {
     song.stop();
   } else {
-    song.loop(); // if i use song.play it will play only once
+    song.loop(); // loop the song
   }
 }
