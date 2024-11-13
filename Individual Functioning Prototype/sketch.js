@@ -1,34 +1,40 @@
+// create a grid-like pattern using rectangles 
+// and the pattern could be vertical or horizontal
 class Pattern {
   constructor(side, colors) {
-    this.side = side;
-    this.colors = colors;
+    this.side = side; // one side length
+    this.colors = colors; // array of colors for each rectangle
   }
 
+// draw rectangle at (x,y) with random color
   drawRect(x, y) {
-    let randomColor = random(this.colors);
+    let randomColor = random(this.colors); // select random color
     fill(randomColor);
-    rect(x, y, this.side, this.side);
+    rect(x, y, this.side, this.side); // draw rectangle at (x,y) with the specified side length
   }
 
+// draws a vertical pattern by placing rectangles along each x, y position
   drawVerticalPattern(xPositions, yPositions) {
-    for (let i = 0; i < yPositions.length; i++) {
-      let y = yPositions[i];
-      for (let x = 0; x < width; x += this.side) {
-        this.drawRect(x, y - this.side / 2);
+    for (let i = 0; i < yPositions.length; i++) {  // iterate y position
+      let y = yPositions[i]; // current y position
+      for (let x = 0; x < width; x += this.side) { // fill across the row with rectangles
+        this.drawRect(x, y - this.side / 2); // draw each rectangle centered vertically on y
       }
     }
   }
 
+// draws a horizontal pattern by placing rectangles along each x, y position.
   drawHorizontalPattern(xPositions, yPositions) {
-    for (let i = 0; i < xPositions.length; i++) {
-      let x = xPositions[i];
-      for (let y = 0; y < height; y += this.side) {
-        this.drawRect(x - this.side / 2, y);
+    for (let i = 0; i < xPositions.length; i++) {  // iterate x position
+      let x = xPositions[i]; // current x position
+      for (let y = 0; y < height; y += this.side) { // fill down the column with rectangles
+        this.drawRect(x - this.side / 2, y); //draw each rectangle centered horizontally on x
       }
     }
   }
 }
 
+// Initial variables
 let leftY = 0;
 let grey;
 let darkgery;
@@ -39,6 +45,7 @@ let side;
 
 let song, analyzer;
 
+// preload the sound file
 function preload() {
   song = loadSound("assets/489851__prime45__boogie-woogie.wav");
 }
@@ -46,45 +53,55 @@ function preload() {
 function setup() {
   createCanvas(900, 900);
 
+  // initialize amplitude analyzer and connect it to the loaded song
   analyzer = new p5.Amplitude();
-  analyzer.setInput(song);
+  analyzer.setInput(song); // analyse amplitude
   
-  let button = createButton("▶/⏸");
-  button.style("background-color", "grey"); // modify background-color
-  button.style("border-radius", "3px");
-  button.style("font-size", "13px"); // modify front-size of the button
-  button.style("padding", "0px 1px"); // modify padding of the button
-  button.position(440,890);
-  button.mousePressed(play_pause);
+  // create a play/pause button and set it style
+  let button = createButton("▶/⏸"); // use the Unicode triangle and pause symbols to represent the play/pause button
+  button.style("background-color", "grey"); // set background-color of the button
+  button.style("border-radius", "3px"); //set radius of the button
+  button.style("font-size", "13px"); // set front-size of the button
+  button.style("padding", "0px 1px"); // set padding of the button
+  button.position(440,690); //set position of the button
+  button.mousePressed(play_pause); //set the interact method of the button
 
-  strokeWeight(1.5);
-  background(255);
-  side = 30;
+  strokeWeight(1.5); //set weight of the stroke
+  background(255); //set background colour
+  side = 30; //set the size of each rectangle in the pattern
 
+  // define colours
   yellow = color(236, 212, 42);
   blue = color(68, 104, 178);
   grey = color(217, 218, 212);
   red = color(165, 57, 45);
-  darkgery = (114, 113, 113);
+  darkgrey = (114, 113, 113);
 
+  // array of colors to randomly choose from for each pattern
   let colors = [yellow, blue, grey, red];
 
+  // define y, x positions for pattern rows and columns
   let yPositions = [105, 285, 405, 585, 765];
   let xPositions = [105, 225, 735, 855];
 
+  // create a Pattern object with side and color
   let pattern = new Pattern(side, colors);
 
+  // draw rectangles in vertical and horizontal grid
   pattern.drawVerticalPattern(xPositions, yPositions);
   pattern.drawHorizontalPattern(xPositions, yPositions);
 }
 
 function draw() {
-  fill(255);
-  rect(240,600,480,150);
-  fill(yellow);
-  rect(435,650,120,65);
+  fill(255); 
+  rect(240,600,480,150); //basic white rectangle
+  fill(yellow); 
+  rect(435,650,120,65); //tv background
 
+  // get the current amplitude level of the song
   let rms = analyzer.getLevel();
+
+  // draw objects that respond to rms
   fill(0);
   rect(width/2.57+rms*5,height/1.27+rms*5, 48+rms*10, 24+rms*10); //cat body
   rect(width/2.57+rms*5,height/1.23+rms*5, 3+rms*5, 13+rms*10); //cat front leg1
@@ -103,35 +120,36 @@ function draw() {
   rect(width/1.321,height/1.35, 12+rms*7, 12+rms*7); //leaf4
   circle(width/1.98,height/1.34, 20+rms*20, 20+rms*20); //shape in tv
 
-  // Horizontal conveyor belt, the third row
   fill(grey);
-  rect(0, 300, 900, 90);
+  rect(0, 300, 900, 90); // Horizontal conveyor belt, the third row
 
   // Two parcel storage doors
-  fill(darkgery);
+  fill(darkgrey);
     rect(90, 300, 30, 90);
     rect(210, 300, 30, 90);
     rect(720, 300, 30, 90);
     rect(840, 300, 30, 90);
 
-  // Left parcel passageway
   fill(grey);
-  rect(120, 0, 90, 900);
+  rect(120, 0, 90, 900); // Left parcel passageway
 
   // Building Columns
-  fill(darkgery);
+  fill(darkgrey);
   rect(370, 300, 50, 90);
   rect(560, 300, 50, 90);
 
   // Package Movement
-  push();
-  translate(0, leftY);
-  leftY -= 1;
+  push(); // save the current drawing state
+  translate(0, leftY); // move the package downwards by leftY
+  leftY -= 1; // decreases leftY by 1 to make the package move up gradually
+
+  // reset the package position to start again when it moves out of canvas
   if (leftY < -900) {
     leftY = 900;
   }
+
   // Left package machines
-  fill(darkgery);
+  fill(darkgrey);
   rect(120, 240, 90, 20);
   rect(120, 490, 90, 20);
   rect(120, 820, 90, 20);
@@ -153,7 +171,7 @@ function draw() {
   rect(135, 445, 40, 30); // 2
   rect(165, 760, 36, 26); // 3
 
-  // MOvement
+  // restore the previous drawing state saved by push()
   pop();
 
   // Package 4 inside horizontal conveyor belt
@@ -184,7 +202,7 @@ function draw() {
   rect(750, 775, 45, 125);
   rect(795, 775, 45, 125);
 
-  fill(darkgery);
+  fill(darkgrey);
   rect(750, 540, 90, 20); // Elevator top
   rect(750, 700, 90, 20); // Elevator bottom
 
@@ -206,7 +224,7 @@ function draw() {
   line(682, 700, 686, 675);
 
   //artwork
-  fill(darkgery);
+  fill(darkgrey);
   rect(300, 630, 38, 48); // frame
   fill(grey);
   rect(304, 635, 30, 38); //canvas
@@ -235,7 +253,7 @@ function draw() {
   rect(565, 200, 5, 5);
 
   //package door
-  fill(darkgery);
+  fill(darkgrey);
   rect(233, 155, 7, 105); //package door level4
   rect(233, 455, 7, 105); //package door level3
   rect(233, 635, 7, 105); //package door level2
@@ -260,7 +278,7 @@ function draw() {
   rect(personX + side, personY + side, side / 2, side); //right arm
 
   // Draw the person4's leg
-  fill(darkgery);
+  fill(darkgrey);
   rect(personX, personY + side * 3, side / 2, side); //left leg
   rect(personX + side / 2, personY + side * 3, side / 2, side); //right leg
 
@@ -287,7 +305,7 @@ function draw() {
   rect(personX3 + side, personY3 + side, side / 3, side); //right arm
 
   // Draw the person3's leg
-  fill(darkgery);
+  fill(darkgrey);
   rect(personX3, personY3 + side * 3, side / 2, side); //left leg
   rect(personX3 + side / 2, personY3 + side * 3, side / 2, side); //right leg
 
@@ -301,29 +319,15 @@ function draw() {
 
   // Draw the cat2's ear
   fill(blue);
-  triangle(
-    catX2 * 1.01,
-    catY2 * 0.993,
-    catX2 * 0.983,
-    catY2 * 0.998,
-    catX2 * 0.985,
-    catY2 * 0.983
-  ); //left ear
+  triangle(catX2 * 1.01, catY2 * 0.993, catX2 * 0.983, catY2 * 0.998, catX2 * 0.985, catY2 * 0.983); //left ear
   fill(yellow);
-  triangle(
-    catX2 * 1.05,
-    catY2,
-    catX2 * 1.03,
-    catY2 * 0.993,
-    catX2 * 1.05,
-    catY2 * 0.983
-  ); //right ear
-  
+  triangle(catX2 * 1.05, catY2, catX2 * 1.03, catY2 * 0.993, catX2 * 1.05, catY2 * 0.983); //right ear
 }
 
+// change play and pause states for the song when called
 function play_pause() {
   if (song.isPlaying()) {
-    song.stop();
+    song.stop(); // stop the song if it is playing
   } else {
     song.loop(); // loop the song
   }
