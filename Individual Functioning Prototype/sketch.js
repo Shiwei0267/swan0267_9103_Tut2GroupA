@@ -75,7 +75,7 @@ function setup() {
   blue = color(68, 104, 178);
   grey = color(217, 218, 212);
   red = color(165, 57, 45);
-  darkgrey = (114, 113, 113);
+  darkgrey = color(114, 113, 113);
 
   // array of colors to randomly choose from for each pattern
   let colors = [yellow, blue, grey, red];
